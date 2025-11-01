@@ -76,3 +76,72 @@ nav a{
     margin-top: 20px;
     font-size: 16px;
 }
+
+form {
+    display: none;
+    padding: 5px;
+    position: relative;
+}
+
+.top-form-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-content form label{
+    display: block;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.main-content form input{
+    display: block;
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.validation-msg{
+    display: block;
+    color: crimson;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.close-form-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+}
+
+button[type="submit"]{
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+
+
+.add-new-container{
+    flex-shrink: 0;
+    padding: 10px;
+    width: 300px;
+    background: #f1f1f1;
+    border-radius: 3px;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 10px;
+}
+
+.add-container-btn{
+    margin-top: 5px;
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+}
