@@ -4,4 +4,5 @@ let str = "Hello world";
 function foo() {
     return "Hello word";
 }
+console.log('HELLO WORLD');
 //# sourceMappingURL=script.js.map
