@@ -39,20 +39,28 @@ function deleteBtnListeners(btn: HTMLButtonElement){
     btn.addEventListener('click', handleContainerDeletion)
 }
  
-// La fonction qui récupère le bouton d'ajout d'item 
+// La fonction qui récupère le bouton d'ajout d'item et lui affecte l'ecouteur de l'event click
 function addItemBtnListeners(btn: HTMLButtonElement){
-
+    // Au click, il appelle la fonction handleAddItem
     btn.addEventListener('click', handleAddItem)
 }
 
+// La fonction chargée de la suppression éffective du container. Elle récupère l'event qui s'est produit
 function handleContainerDeletion(e: MouseEvent){
+
+    // On récupère l'élément HTML qui a déclenché l'event
     const btn = e.target as HTMLButtonElement;
 
+    // On récupère la liste de tous les boutons qui se charge de la suppression de containers
     const btnsArray = [...document.querySelectorAll('.delete-container-btn')] as HTMLButtonElement[];
+
+    // On récupère tous les containers
     const containers = [...document.querySelectorAll('.items-container')] as HTMLDivElement[];
 
+    // On va chercher avec la fonction indexOf, le container qui correspond au bouton de suppression qu'on a target, puis on supprime le container
     containers[btnsArray.indexOf(btn)]?.remove()
 }
+
 
 function handleAddItem(e: MouseEvent){
     const btn = e.target as HTMLButtonElement;
@@ -61,6 +69,8 @@ function handleAddItem(e: MouseEvent){
     toggleForm(actualBtn, actualForm, true);
 }
 
+// La fonction qui se charge de toggle l'affichage du form. Il récupère le bouton cliqué, le form correspondant et un boolean pour savoir si
+// il faut ouvrir ou fermer le form
 function toggleForm(btn: HTMLButtonElement, form: HTMLFormElement, action: boolean){
     if(!action){
         form.style.display = "none";
