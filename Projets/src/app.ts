@@ -72,20 +72,36 @@ function handleAddItem(e: MouseEvent){
 // La fonction qui se charge de toggle l'affichage du form. Il récupère le bouton cliqué, le form correspondant et un boolean pour savoir si
 // il faut ouvrir ou fermer le form
 function toggleForm(btn: HTMLButtonElement, form: HTMLFormElement, action: boolean){
+
+    // Si le action est à false, le formulaire se ferme
     if(!action){
         form.style.display = "none";
         btn.style.display = "block";
+    
+    // Si le action est à true, le formulaire s'ouvre
     }else if(action){
         form.style.display = "block";
         btn.style.display = "none";
     }
 }
 
+// La fonction qui récupère les informations importantes en rapport avec le container actif
 function setContainerItems(btn: HTMLButtonElement){
+    // Le bouton actif ou cliqué
     actualBtn = btn;
+
+    // Le container actif
     actualContainer = btn.parentElement as HTMLDivElement;
+
+    // Le <ul> du container actif
     actualUL = actualContainer.querySelector('ul') as HTMLUListElement;
+
+    // Le <input /> du formulaire actuellement ouvert
     actualTextInput = actualContainer.querySelector('input') as HTMLInputElement;
+
+    // Le formulaire actif ou ouvert actuellement
     actualForm = actualContainer.querySelector('form') as HTMLFormElement;
+
+    // Le span du formulaire actif
     actualValidation = actualContainer.querySelector('.validation-msg') as HTMLSpanElement;
 }
