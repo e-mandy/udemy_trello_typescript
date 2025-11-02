@@ -18,14 +18,19 @@ function addContainerListener(currentContainer: HTMLDivElement){
 
     // On récupère le bouton ajout d'item (l'ajout ne se fait pas encore, il ne fait qu'ouvrir le form)
     const currentAddItemBtn = currentContainer.querySelector('.add-item-btn') as HTMLButtonElement;
+    const currentCloseFormBtn = currentContainer.querySelector('.close-form-btn') as HTMLButtonElement;
+    const currentForm = currentContainer.querySelector('form') as HTMLFormElement;
 
     //Ici, sont appelés les fonctions qui se chargeront de faire les ajouts de listeners spécifiques
 
     // Le listener sur le delete de container. Il récupère le bonton et lui applique le listener
     deleteBtnListeners(currentContainerDeletionBtn)
 
-    
     addItemBtnListeners(currentAddItemBtn)
+
+    closingFormBtnListeners(currentCloseFormBtn)
+
+    addFormSubmitListeners(currentForm)
 }
 
 // La boucle qui enclenche la fonction pour l'ajout des listeners aux containers.
@@ -43,6 +48,14 @@ function deleteBtnListeners(btn: HTMLButtonElement){
 function addItemBtnListeners(btn: HTMLButtonElement){
     // Au click, il appelle la fonction handleAddItem
     btn.addEventListener('click', handleAddItem)
+}
+
+function closingFormBtnListeners(btn: HTMLButtonElement){
+    btn.addEventListener('click', ()=> toggleForm(actualBtn, actualForm, false))
+}
+
+function addFormSubmitListeners(form: HTMLFormElement){
+    form.addEventListener('submit', createNewItem)
 }
 
 // La fonction chargée de la suppression éffective du container. Elle récupère l'event qui s'est produit
@@ -105,3 +118,25 @@ function setContainerItems(btn: HTMLButtonElement){
     // Le span du formulaire actif
     actualValidation = actualContainer.querySelector('.validation-msg') as HTMLSpanElement;
 }
+
+function createNewItem(e: Event){
+    e.preventDefault()
+    if(actualTextInput.value.length === 0){
+        actualValidation.textContent = "Must be at least one character long"
+        return
+    }else{
+        actualValidation.textContent = ""
+    }
+
+    const itemContent = actualTextInput.value;
+    const li = `
+        <li class="item" draggable="true">
+            <p>${itemContent}</p>
+            <button>X</button>
+        </li>`
+
+    actualUL.insertAdjacentHTML('beforeend', li)
+    
+    const item = actualUL.lastElementChild as HTMLLIElement;
+                                       
+}                    
