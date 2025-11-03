@@ -138,5 +138,15 @@ function createNewItem(e: Event){
     actualUL.insertAdjacentHTML('beforeend', li)
     
     const item = actualUL.lastElementChild as HTMLLIElement;
-                                       
-}                    
+    const liBtn = item.querySelector('button') as HTMLButtonElement;
+    handleItemDeletion(liBtn);
+    actualTextInput.value = ""        
+}
+
+
+function handleItemDeletion(btn: HTMLButtonElement){
+    btn.addEventListener('click', () => {
+        const elToRemove = btn.parentElement;
+        elToRemove?.remove();
+    })
+}
