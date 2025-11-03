@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //  Déjà on récupère tous les conteneurs d'items de notre app (ILs seront enregistrés comme une NodeList d'élément HTML)
 const itemsContainer = document.querySelectorAll('.items-container');
 let actualContainer, actualBtn, actualUL, actualForm, actualTextInput, actualValidation;
+let addContainerForm, addContainerFormInput, validationNewContainer;
 const addNewContainer = document.querySelector('add-new-container');
+const containerList = document.querySelector('.main-content');
 // Ici on s'assure d'ajouter à nos conteneurs, tous les listeners qu'il faut pour toutes les actions qu"il y aura à éffectuer
 // Du coup on récupère un container et on lui ajoute les listeners
 function addContainerListener(currentContainer) {
@@ -23,13 +25,16 @@ function addContainerListener(currentContainer) {
 function addNewContainerListeners(container) {
     const addNewContainerBtn = container.querySelector('add-container-btn');
     const currentCloseFormBtn = container.querySelector('close-form-btn');
+    const currentAddNewContainerForm = container.querySelector('form');
     addNewContainerListener(addNewContainerBtn);
     closingFormBtnListeners(currentCloseFormBtn);
+    createNewContainer(currentAddNewContainerForm);
 }
 // La boucle qui enclenche la fonction pour l'ajout des listeners aux containers.
 itemsContainer.forEach((container) => {
     addContainerListener(container);
 });
+addNewContainerListeners(addNewContainer);
 // La fonction qui récupère le bouton et lui affecte le listener click pour la suppression de container
 function deleteBtnListeners(btn) {
     // Au click il appelle la fonction handleContainerDeletion pour la suppression du container
@@ -73,8 +78,8 @@ function handleAddContainer(e) {
         toggleForm(actualBtn, actualForm, false);
     }
     else {
-        setContainerItems(btn);
-        toggleForm(btn, actualForm, true);
+        setAddNewContainerItems(btn);
+        toggleForm(btn, addContainerForm, true);
     }
 }
 // La fonction qui se charge de toggle l'affichage du form. Il récupère le bouton cliqué, le form correspondant et un boolean pour savoir si
@@ -106,6 +111,12 @@ function setContainerItems(btn) {
     // Le span du formulaire actif
     actualValidation = actualContainer.querySelector('.validation-msg');
 }
+function setAddNewContainerItems(btn) {
+    const addContainer = btn.parentElement;
+    addContainerForm = addContainer?.querySelector('form');
+    addContainerFormInput = addContainerForm.querySelector('input');
+    validationNewContainer = addContainerForm.querySelector('.validation-msg');
+}
 function createNewItem(e) {
     e.preventDefault();
     if (actualTextInput.value.length === 0) {
@@ -127,10 +138,48 @@ function createNewItem(e) {
     handleItemDeletion(liBtn);
     actualTextInput.value = "";
 }
+function createNewContainer(form) {
+    form.addEventListener('submit', handleAddNewContainer);
+}
 function handleItemDeletion(btn) {
     btn.addEventListener('click', () => {
         const elToRemove = btn.parentElement;
         elToRemove?.remove();
     });
+}
+function handleAddNewContainer(e) {
+    e.preventDefault();
+    if (addContainerForm.value.length === 0) {
+        validationNewContainer.textContent = "Must have at least one character";
+        return;
+    }
+    else {
+        validationNewContainer.textContent = "";
+    }
+    const container = document.querySelector('.items-container');
+    const newContainer = container.cloneNode();
+    const newContainerContent = `
+        <div class="items-container" draggable="true">
+            <div class="top-container">
+                <h2>${addContainerFormInput.value}</h2>
+                <button class="delete-container-btn">X</button>
+            </div>
+            <ul></ul>
+            <button class="add-item-btn">Add an item</button>
+            <form autocomplete="off">
+                <div class="top-form-container">
+                    <label for="item">Add a new item</label>
+                    <button type="button" class="close-form-btn">X</button>
+                </div>
+                <input type="text" id="item">
+                <span class="validation-msg"></span>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    `;
+    newContainer.innerHTML = newContainerContent;
+    containerList?.insertBefore(newContainer, addNewContainer);
+    addContainerFormInput.value = "";
+    addContainerListener(newContainer);
 }
 //# sourceMappingURL=app.js.map
