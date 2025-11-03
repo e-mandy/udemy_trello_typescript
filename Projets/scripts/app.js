@@ -1,7 +1,9 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 //  Déjà on récupère tous les conteneurs d'items de notre app (ILs seront enregistrés comme une NodeList d'élément HTML)
 const itemsContainer = document.querySelectorAll('.items-container');
 let actualContainer, actualBtn, actualUL, actualForm, actualTextInput, actualValidation;
+const addNewContainer = document.querySelector('add-new-container');
 // Ici on s'assure d'ajouter à nos conteneurs, tous les listeners qu'il faut pour toutes les actions qu"il y aura à éffectuer
 // Du coup on récupère un container et on lui ajoute les listeners
 function addContainerListener(currentContainer) {
@@ -17,6 +19,12 @@ function addContainerListener(currentContainer) {
     addItemBtnListeners(currentAddItemBtn);
     closingFormBtnListeners(currentCloseFormBtn);
     addFormSubmitListeners(currentForm);
+}
+function addNewContainerListeners(container) {
+    const addNewContainerBtn = container.querySelector('add-container-btn');
+    const currentCloseFormBtn = container.querySelector('close-form-btn');
+    addNewContainerListener(addNewContainerBtn);
+    closingFormBtnListeners(currentCloseFormBtn);
 }
 // La boucle qui enclenche la fonction pour l'ajout des listeners aux containers.
 itemsContainer.forEach((container) => {
@@ -38,6 +46,9 @@ function closingFormBtnListeners(btn) {
 function addFormSubmitListeners(form) {
     form.addEventListener('submit', createNewItem);
 }
+function addNewContainerListener(btn) {
+    btn.addEventListener('click', handleAddContainer);
+}
 // La fonction chargée de la suppression éffective du container. Elle récupère l'event qui s'est produit
 function handleContainerDeletion(e) {
     // On récupère l'élément HTML qui a déclenché l'event
@@ -55,6 +66,16 @@ function handleAddItem(e) {
         toggleForm(actualBtn, actualForm, false);
     setContainerItems(btn);
     toggleForm(actualBtn, actualForm, true);
+}
+function handleAddContainer(e) {
+    const btn = e.target;
+    if (actualContainer) {
+        toggleForm(actualBtn, actualForm, false);
+    }
+    else {
+        setContainerItems(btn);
+        toggleForm(btn, actualForm, true);
+    }
 }
 // La fonction qui se charge de toggle l'affichage du form. Il récupère le bouton cliqué, le form correspondant et un boolean pour savoir si
 // il faut ouvrir ou fermer le form

@@ -8,6 +8,8 @@ let actualContainer: HTMLDivElement,
     actualTextInput: HTMLInputElement,
     actualValidation: HTMLSpanElement
 
+const addNewContainer = document.querySelector('add-new-container') as HTMLDivElement;
+
 
 // Ici on s'assure d'ajouter à nos conteneurs, tous les listeners qu'il faut pour toutes les actions qu"il y aura à éffectuer
 // Du coup on récupère un container et on lui ajoute les listeners
@@ -32,6 +34,16 @@ function addContainerListener(currentContainer: HTMLDivElement){
 
     addFormSubmitListeners(currentForm)
 }
+
+function addNewContainerListeners(container: HTMLDivElement){
+    const addNewContainerBtn = container.querySelector('add-container-btn') as HTMLButtonElement;
+    const currentCloseFormBtn = container.querySelector('close-form-btn') as HTMLButtonElement;
+    
+    addNewContainerListener(addNewContainerBtn);
+
+    closingFormBtnListeners(currentCloseFormBtn);
+}
+
 
 // La boucle qui enclenche la fonction pour l'ajout des listeners aux containers.
 itemsContainer.forEach((container: HTMLDivElement) => {
@@ -58,6 +70,10 @@ function addFormSubmitListeners(form: HTMLFormElement){
     form.addEventListener('submit', createNewItem)
 }
 
+function addNewContainerListener(btn: HTMLButtonElement){
+    btn.addEventListener('click', handleAddContainer)
+}
+
 // La fonction chargée de la suppression éffective du container. Elle récupère l'event qui s'est produit
 function handleContainerDeletion(e: MouseEvent){
 
@@ -80,6 +96,17 @@ function handleAddItem(e: MouseEvent){
     if(actualContainer) toggleForm(actualBtn, actualForm, false);
     setContainerItems(btn);
     toggleForm(actualBtn, actualForm, true);
+}
+
+function handleAddContainer(e: MouseEvent){
+    const btn = e.target as HTMLButtonElement;
+
+    if(actualContainer) {
+        toggleForm(actualBtn, actualForm, false)
+    }else{
+        setContainerItems(btn);
+        toggleForm(btn, actualForm, true);
+    }
 }
 
 // La fonction qui se charge de toggle l'affichage du form. Il récupère le bouton cliqué, le form correspondant et un boolean pour savoir si
